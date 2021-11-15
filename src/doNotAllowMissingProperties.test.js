@@ -15,7 +15,7 @@ describe('doNotAllowMissingProperties()', () => {
           return this.#privateField
         }
 
-        getNonExistentField() {
+        getNonExistentField () {
           return this.doesNotExist
         }
       }
@@ -61,8 +61,13 @@ describe('doNotAllowMissingProperties()', () => {
     })
 
     describe('public method that accesses private field', () => {
-      it('can access private field as usual', () => {
-        expect(instance.getPrivateField()).toEqual('private field')
+      it('cannot access private fields, unfortunately', () => {
+        // There doesn't seem to be a solution to this.
+        // you could bind the getPrivateField method to the proxy
+        // target in doNotAllowMissingProperties but then getPrivateField
+        // will execute without protection. Not worth it, better to avoid
+        // private field usage and use _ prefixed properties convention.
+        expect(() => instance.getPrivateField()).toThrowError(TypeError)
       })
     })
 
