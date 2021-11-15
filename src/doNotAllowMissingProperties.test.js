@@ -14,6 +14,10 @@ describe('doNotAllowMissingProperties()', () => {
         getPrivateField () {
           return this.#privateField
         }
+
+        getNonExistentField() {
+          return this.doesNotExist
+        }
       }
 
       instance = doNotAllowMissingProperties(new Klass())
@@ -47,6 +51,12 @@ describe('doNotAllowMissingProperties()', () => {
     describe('write non-existing public field', () => {
       it('throws MissingPropertyError', () => {
         expect(() => { instance.doesNotExist = 'new value' }).toThrowError(MissingPropertyError)
+      })
+    })
+
+    describe('public method that accesses non-existent field', () => {
+      it('throws MissingPropertyError', () => {
+        expect(() => instance.getNonExistentField()).toThrowError(MissingPropertyError)
       })
     })
 
