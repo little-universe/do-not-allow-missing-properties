@@ -40,7 +40,7 @@ const throwError = (propertyName) => {
 
 const allowMissingProperties = (proxy) => {
   if (proxy === undefined || proxy === null) {
-    throw new Error('cannot allowMissingProperties of ' + proxy)
+    return proxy
   }
 
   return proxy[PROXY_TARGET_PROPERTY] || proxy
@@ -48,7 +48,7 @@ const allowMissingProperties = (proxy) => {
 
 const doNotAllowMissingProperties = (object) => {
   if (object === undefined || object === null) {
-    throw new Error('cannot doNotAllowMissingProperties of ' + object)
+    return object
   }
 
   return new Proxy(object, accessors)
