@@ -5,6 +5,8 @@ const MissingPropertyError = class extends Error { }
 const PROXY_TARGET_PROPERTY = '__doNotAllowMissingPropertiesProxyTarget'
 // there is code in the runtime that calls these without checking first. async/await maybe?
 const promiseMethods = ['then', 'catch', 'finally']
+const jestMatcherMethods = ['asymmetricMatch', 'nodeType', 'tagName', 'hasAttribute']
+const allowedMethods = promiseMethods.concat(jestMatcherMethods)
 
 const setter = {
   set (object, property, value) {
@@ -24,7 +26,7 @@ const getter = {
       return object
     }
 
-    if (property in object || promiseMethods.includes(property) || !isString(property)) {
+    if (property in object || allowedMethods.includes(property) || !isString(property)) {
       return object[property]
     }
 
