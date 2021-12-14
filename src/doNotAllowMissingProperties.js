@@ -5,11 +5,19 @@ const MissingPropertyError = class extends Error { }
 const PROXY_TARGET_PROPERTY = '__doNotAllowMissingPropertiesProxyTarget'
 // there is code in the runtime that calls these without checking first. async/await maybe?
 const promiseMethods = ['then', 'catch', 'finally']
-const jestMatcherMethods = ['asymmetricMatch', 'nodeType', 'tagName', 'hasAttribute']
-const allowedMethods = promiseMethods.concat(jestMatcherMethods)
+const jestMatcherMethods = ['asymmetricMatch', 'nodeType', 'tagName', 'hasAttribute', '_isMockFunction']
+const lodashMethods = ['length']
+const allowedMethods = promiseMethods.concat(jestMatcherMethods).concat(lodashMethods)
 
 const setter = {
   set (object, property, value) {
+    const descriptor = Object.getOwnPropertyDescriptor(object.constructor?.prototype, property)
+
+    if (descriptor && descriptor.set) {
+      descriptor.set.apply(doNotAllowMissingProperties(object), [value])
+      return true
+    }
+
     if (property in object) {
       object[property] = value
       return true
@@ -24,6 +32,13 @@ const getter = {
     if (property === PROXY_TARGET_PROPERTY) {
       // a way to expose the proxy target to make allowMissingProperties function work
       return object
+    }
+
+    const descriptor = Object.getOwnPropertyDescriptor(object.constructor?.prototype, property)
+
+    if (descriptor && descriptor.get) {
+      const value = descriptor.get.apply(doNotAllowMissingProperties(object))
+      return value
     }
 
     if (property in object || allowedMethods.includes(property) || !isString(property)) {
@@ -56,8 +71,13 @@ const doNotAllowMissingProperties = (object) => {
   return new Proxy(object, accessors)
 }
 
+const allowsMissingProperties = (object) => {
+  return !object[PROXY_TARGET_PROPERTY]
+}
+
 module.exports = {
   doNotAllowMissingProperties,
   allowMissingProperties,
+  allowsMissingProperties,
   MissingPropertyError
 }

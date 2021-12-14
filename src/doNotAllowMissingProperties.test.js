@@ -18,6 +18,22 @@ describe('doNotAllowMissingProperties()', () => {
         getNonExistentField () {
           return this.doesNotExist
         }
+
+        get getsetForExistingField () {
+          return this.exists
+        }
+
+        set getsetForExistingField (value) {
+          this.exists = value
+        }
+
+        get getsetForNonExistentField () {
+          return this.doesNotExist
+        }
+
+        set getsetForNonExistentField (value) {
+          this.doesNotExist = value
+        }
       }
 
       instance = doNotAllowMissingProperties(new Klass())
@@ -57,6 +73,32 @@ describe('doNotAllowMissingProperties()', () => {
     describe('public method that accesses non-existent field', () => {
       it('throws MissingPropertyError', () => {
         expect(() => instance.getNonExistentField()).toThrowError(MissingPropertyError)
+      })
+    })
+
+    describe('public getter that accesses non-existent field', () => {
+      it('throws MissingPropertyError', () => {
+        expect(() => instance.getsetForNonExistentField).toThrowError(MissingPropertyError)
+      })
+    })
+
+    describe('public setter that sets non-existent field', () => {
+      it('throws MissingPropertyError', () => {
+        expect(() => { instance.getsetForNonExistentField = 'foo' }).toThrowError(MissingPropertyError)
+      })
+    })
+
+    describe('public getter that accesses existing field', () => {
+      it('returns property value', () => {
+        expect(instance.getsetForExistingField).toEqual('exists')
+      })
+    })
+
+    describe('public setter that sets existing field', () => {
+      it('sets property', () => {
+        expect(() => { instance.getsetForExistingField = 'foo' }).not.toThrowError()
+        expect(instance.exists).toEqual('foo')
+        expect(instance.getsetForExistingField).toEqual('foo')
       })
     })
 
