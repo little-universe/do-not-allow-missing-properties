@@ -1,14 +1,14 @@
 {
-  "name": "do-not-allow-missing-properties",
+  "name": "@little-universe/do-not-allow-missing-properties",
   "version": "1.0.0",
   "description": "Throw an error when accessing non-existent properties instead of returning undefined",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test"
+    "jest": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/little-universe/do-not-allow-missing-properties.git"
+    "url": "git://github.com/little-universe/do-not-allow-missing-properties.git"
   },
   "author": "Miles Georgi",
   "license": "ISC",
@@ -18,5 +18,11 @@
   "homepage": "https://github.com/little-universe/do-not-allow-missing-properties#readme",
   "dependencies": {
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
