@@ -4,7 +4,7 @@
   "description": "Throw an error when accessing non-existent properties instead of returning undefined",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test"
+    "jest": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "homepage": "https://github.com/little-universe/do-not-allow-missing-properties#readme",
   "dependencies": {
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }
