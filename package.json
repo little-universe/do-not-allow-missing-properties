@@ -4,7 +4,11 @@
   "description": "Throw an error when accessing non-existent properties instead of returning undefined",
   "main": "index.js",
   "scripts": {
-    "jest": "jest"
+    "jest": "jest",
+    "jest:watch": "jest --watch",
+    "linter:standard": "standard | snazzy",
+    "linter:standard:fix": "standard --fix | snazzy",
+    "before:commit": "npm run linter:standard:fix"
   },
   "repository": {
     "type": "git",
@@ -17,11 +21,19 @@
   },
   "homepage": "https://github.com/little-universe/do-not-allow-missing-properties#readme",
   "dependencies": {
+    "command": "github:little-universe/command",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "jest": "^27.5.1"
+    "@babel/eslint-parser": "^7.17.0",
+    "jest": "^27.5.1",
+    "snazzy": "^9.0.0",
+    "standard": "^16.0.4"
   },
+  "standard": {
+    "parser": "@babel/eslint-parser"
+  },
+
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   }
