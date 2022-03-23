@@ -1,3 +1,5 @@
+
+const { describe, it, expect, beforeEach } = require('@jest/globals')
 const { doNotAllowMissingProperties, allowMissingProperties, MissingPropertyError } = require('./doNotAllowMissingProperties')
 
 describe('doNotAllowMissingProperties()', () => {
