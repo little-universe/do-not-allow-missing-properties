@@ -7,7 +7,13 @@ const PROXY_TARGET_PROPERTY = '__doNotAllowMissingPropertiesProxyTarget'
 const promiseMethods = ['then', 'catch', 'finally']
 const jestMatcherMethods = ['asymmetricMatch', 'nodeType', 'tagName', 'hasAttribute', '_isMockFunction']
 const lodashMethods = ['length']
-const allowedMethods = promiseMethods.concat(jestMatcherMethods).concat(lodashMethods)
+const standardLibraryMethods = ['toJSON']
+const allowedMethods = [
+  ...promiseMethods,
+  ...jestMatcherMethods,
+  ...lodashMethods,
+  ...standardLibraryMethods
+]
 
 const setter = {
   set (object, property, value) {
