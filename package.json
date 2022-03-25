@@ -1,6 +1,6 @@
 {
   "name": "@little-universe/do-not-allow-missing-properties",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Throw an error when accessing non-existent properties instead of returning undefined",
   "main": "index.js",
   "scripts": {
