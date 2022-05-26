@@ -1,6 +1,13 @@
 
 const { describe, it, expect, beforeEach } = require('@jest/globals')
-const { doNotAllowMissingProperties, allowMissingProperties, MissingPropertyError } = require('./doNotAllowMissingProperties')
+
+const {
+  doNotAllowMissingProperties,
+  allowMissingProperties,
+  allowsMissingProperties,
+  doesNotAllowMissingProperties,
+  MissingPropertyError
+} = require('./doNotAllowMissingProperties')
 
 describe('doNotAllowMissingProperties()', () => {
   describe('classes', () => {
@@ -158,5 +165,25 @@ describe('doNotAllowMissingProperties()', () => {
     it('is null', () => {
       expect(doNotAllowMissingProperties(null)).toBeNull()
     })
+  })
+})
+
+describe('doesNotAllowMissingProperties()', () => {
+  describe('undefined', () => {
+    expect(doesNotAllowMissingProperties(undefined)).toBe(true)
+  })
+
+  describe('null', () => {
+    expect(doesNotAllowMissingProperties(null)).toBe(true)
+  })
+})
+
+describe('allowsMissingProperties()', () => {
+  describe('undefined', () => {
+    expect(allowsMissingProperties(undefined)).toBe(false)
+  })
+
+  describe('null', () => {
+    expect(allowsMissingProperties(null)).toBe(false)
   })
 })
