@@ -85,11 +85,11 @@ const doNotAllowMissingProperties = (target) => {
 }
 
 const allowsMissingProperties = (object) => {
-  return !doesNotAllowMissingProperties(object[PROXY_TARGET_PROPERTY])
+  return !doesNotAllowMissingProperties(object)
 }
 
 const doesNotAllowMissingProperties = (object) => {
-  return !!object[PROXY_TARGET_PROPERTY]
+  return object ? !!object[PROXY_TARGET_PROPERTY] : true
 }
 
 module.exports = {
