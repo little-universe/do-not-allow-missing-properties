@@ -73,12 +73,8 @@ const allowMissingProperties = (proxy) => {
 }
 
 const doNotAllowMissingProperties = (target) => {
-  if (target === undefined || target === null) {
-    return target
-  }
-
   if (doesNotAllowMissingProperties(target)) {
-    throw new Error(`Target already protected against missing properties: ${JSON.stringify(target)}`)
+    return target
   }
 
   return new Proxy(target, accessors)
