@@ -8,10 +8,13 @@ const promiseMethods = ['then', 'catch', 'finally']
 const jestMatcherMethods = ['asymmetricMatch', 'nodeType', 'tagName', 'hasAttribute', '_isMockFunction']
 const lodashMethods = ['length']
 const standardLibraryMethods = ['toJSON']
+const prismaMethods = ['toStringTag'] // would be nice to configure these from outside instead of in this repository
+
 const allowedMethods = [
-  ...promiseMethods,
   ...jestMatcherMethods,
   ...lodashMethods,
+  ...prismaMethods,
+  ...promiseMethods,
   ...standardLibraryMethods
 ]
 
