@@ -19,49 +19,49 @@ const allowedMethods = [
 ]
 
 const setter = {
-  set (object, property, value) {
-    const descriptor = Object.getOwnPropertyDescriptor(object.constructor?.prototype, property)
+  set (target, property, value) {
+    const descriptor = Object.getOwnPropertyDescriptor(target.constructor?.prototype, property)
 
     if (descriptor && descriptor.set) {
-      descriptor.set.apply(doNotAllowMissingProperties(object), [value])
+      descriptor.set.apply(doNotAllowMissingProperties(target), [value])
       return true
     }
 
-    if (property in object) {
-      object[property] = value
+    if (property in target) {
+      target[property] = value
       return true
     }
 
-    throwError(property)
+    throwError(target, property)
   }
 }
 
 const getter = {
-  get (object, property) {
+  get (target, property) {
     if (property === PROXY_TARGET_PROPERTY) {
       // a way to expose the proxy target to make allowMissingProperties function work
-      return object
+      return target
     }
 
-    const descriptor = Object.getOwnPropertyDescriptor(object.constructor?.prototype, property)
+    const descriptor = Object.getOwnPropertyDescriptor(target.constructor?.prototype, property)
 
     if (descriptor && descriptor.get) {
-      const value = descriptor.get.apply(doNotAllowMissingProperties(object))
+      const value = descriptor.get.apply(doNotAllowMissingProperties(target))
       return value
     }
 
-    if (property in object || allowedMethods.includes(property) || !isString(property)) {
-      return object[property]
+    if (property in target || allowedMethods.includes(property) || !isString(property)) {
+      return target[property]
     }
 
-    throwError(property)
+    throwError(target, property)
   }
 }
 
 const accessors = { ...setter, ...getter }
 
-const throwError = (propertyName) => {
-  throw new MissingPropertyError(`Property ${JSON.stringify(propertyName)} is missing`)
+const throwError = (target, propertyName) => {
+  throw new MissingPropertyError(`Property ${JSON.stringify(propertyName)} is missing on ${target}`)
 }
 
 const allowMissingProperties = (proxy) => {
@@ -72,12 +72,12 @@ const allowMissingProperties = (proxy) => {
   return proxy[PROXY_TARGET_PROPERTY] || proxy
 }
 
-const doNotAllowMissingProperties = (object) => {
-  if (object === undefined || object === null) {
-    return object
+const doNotAllowMissingProperties = (target) => {
+  if (target === undefined || target === null) {
+    return target
   }
 
-  return new Proxy(object, accessors)
+  return new Proxy(target, accessors)
 }
 
 const allowsMissingProperties = (object) => {
