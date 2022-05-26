@@ -73,6 +73,10 @@ const allowMissingProperties = (proxy) => {
 }
 
 const doNotAllowMissingProperties = (target) => {
+  if (doesNotAllowMissingProperties(target)) {
+    throw new Error(`Target already protected against missing properties: ${JSON.stringify(target)}`)
+  }
+
   if (target === undefined || target === null) {
     return target
   }
@@ -81,12 +85,17 @@ const doNotAllowMissingProperties = (target) => {
 }
 
 const allowsMissingProperties = (object) => {
-  return !object[PROXY_TARGET_PROPERTY]
+  return !doesNotAllowMissingProperties(object[PROXY_TARGET_PROPERTY])
+}
+
+const doesNotAllowMissingProperties = (object) => {
+  return !!object[PROXY_TARGET_PROPERTY]
 }
 
 module.exports = {
   doNotAllowMissingProperties,
   allowMissingProperties,
+  doesNotAllowMissingProperties,
   allowsMissingProperties,
   MissingPropertyError
 }
