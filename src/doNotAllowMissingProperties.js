@@ -61,7 +61,7 @@ const getter = {
 const accessors = { ...setter, ...getter }
 
 const throwError = (target, propertyName) => {
-  throw new MissingPropertyError(`Property ${JSON.stringify(propertyName)} is missing on ${target}`)
+  throw new MissingPropertyError(`Property ${JSON.stringify(propertyName)} is missing on ${JSON.stringify(target)}`)
 }
 
 const allowMissingProperties = (proxy) => {
