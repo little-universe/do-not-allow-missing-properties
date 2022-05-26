@@ -147,4 +147,16 @@ describe('doNotAllowMissingProperties()', () => {
       })
     })
   })
+
+  describe('undefined', () => {
+    it('is undefined', () => {
+      expect(doNotAllowMissingProperties(undefined)).toBeUndefined()
+    })
+  })
+
+  describe('null', () => {
+    it('is null', () => {
+      expect(doNotAllowMissingProperties(null)).toBeNull()
+    })
+  })
 })
