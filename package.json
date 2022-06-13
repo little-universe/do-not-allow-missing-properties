@@ -3,6 +3,9 @@
   "version": "1.0.1",
   "description": "Throw an error when accessing non-existent properties instead of returning undefined",
   "main": "index.js",
+  "engines": {
+    "node": "14.15.5"
+  },
   "scripts": {
     "jest": "jest",
     "jest:watch": "jest --watch",
