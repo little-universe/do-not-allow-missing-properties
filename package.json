@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/little-universe/do-not-allow-missing-properties#readme",
   "dependencies": {
-    "command": "github:little-universe/command",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
