@@ -9,10 +9,12 @@ const jestMatcherMethods = ['asymmetricMatch', 'nodeType', 'tagName', 'hasAttrib
 const lodashMethods = ['length']
 const standardLibraryMethods = ['toJSON']
 const prismaMethods = ['toStringTag'] // would be nice to configure these from outside instead of in this repository
+const prettyPrintProperties = ['$$typeof']
 
 const allowedMethods = [
   ...jestMatcherMethods,
   ...lodashMethods,
+  ...prettyPrintProperties,
   ...prismaMethods,
   ...promiseMethods,
   ...standardLibraryMethods
@@ -61,7 +63,19 @@ const getter = {
 const accessors = { ...setter, ...getter }
 
 const throwError = (target, propertyName) => {
-  throw new MissingPropertyError(`Property ${JSON.stringify(propertyName)} is missing on ${JSON.stringify(target)}`)
+  let errorTarget
+
+  try {
+    errorTarget = JSON.stringify(target)
+  } catch (err) {
+    try {
+      errorTarget = target.constructor.name
+    } catch (err) {
+      errorTarget = target
+    }
+  }
+
+  throw new MissingPropertyError(`Property ${JSON.stringify(propertyName)} is missing on ${errorTarget}`)
 }
 
 const allowMissingProperties = (proxy) => {
