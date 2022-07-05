@@ -1,4 +1,4 @@
-const { isString } = require('lodash')
+const { isString, some } = require('lodash')
 
 const MissingPropertyError = class extends Error { }
 
@@ -9,16 +9,25 @@ const jestMatcherMethods = ['asymmetricMatch', 'nodeType', 'tagName', 'hasAttrib
 const lodashMethods = ['length']
 const standardLibraryMethods = ['toJSON']
 const prismaMethods = ['toStringTag'] // would be nice to configure these from outside instead of in this repository
-const prettyPrintProperties = ['$$typeof']
+
+const allowedPrefixes = [
+  '$$',
+  '@@'
+]
 
 const allowedMethods = [
   ...jestMatcherMethods,
   ...lodashMethods,
-  ...prettyPrintProperties,
   ...prismaMethods,
   ...promiseMethods,
   ...standardLibraryMethods
 ]
+
+function propertyAllowedToBeMissing (propertyName) {
+  return !isString(propertyName) ||
+    allowedMethods.includes(propertyName) ||
+    some(allowedPrefixes, (allowedPrefix) => propertyName.startsWith(allowedPrefix))
+}
 
 const setter = {
   set (target, property, value) {
@@ -29,7 +38,7 @@ const setter = {
       return true
     }
 
-    if (property in target) {
+    if (property in target || propertyAllowedToBeMissing(property)) {
       target[property] = value
       return true
     }
@@ -52,7 +61,7 @@ const getter = {
       return value
     }
 
-    if (property in target || allowedMethods.includes(property) || !isString(property)) {
+    if (property in target || propertyAllowedToBeMissing(property)) {
       return target[property]
     }
 
