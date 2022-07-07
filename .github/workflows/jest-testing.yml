@@ -7,8 +7,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v3
-      with:
-        node-version: 14.15.5
+      with: 
+      # TODO: Set this programatically
+        node-version: 16.15.1
     - name: Install Node dependencies
       run: npm ci
     - name: Run Jest tests
