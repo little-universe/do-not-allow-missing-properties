@@ -3,10 +3,9 @@
   "version": "1.0.1",
   "description": "Throw an error when accessing non-existent properties instead of returning undefined",
   "main": "index.js",
-  "engines":
-  {
-    "node": "18.14.2",
-    "npm": "9.5.1"
+  "engines": {
+    "node": "18.19.0",
+    "npm": "10.2.5"
   },
   "scripts": {
     "jest": "jest",
