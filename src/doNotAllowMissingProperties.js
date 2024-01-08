@@ -9,6 +9,9 @@ const jestMatcherMethods = ['asymmetricMatch', 'nodeType', 'tagName', 'hasAttrib
 const lodashMethods = ['length']
 const standardLibraryMethods = ['toJSON']
 const prismaMethods = ['toStringTag'] // would be nice to configure these from outside instead of in this repository
+// These fields showed up when upgrading from prisma 4 to 5. They are not documented and we don't know what they do or why they showed up.
+// This patches that problem, even though it's not ideal.
+const prisma5MethodsThatShowedUpOnUpgrade = ['__prismaRawParameters__', 's', '$type']
 
 const allowedPrefixes = [
   '$$',
@@ -20,7 +23,8 @@ const allowedMethods = [
   ...lodashMethods,
   ...prismaMethods,
   ...promiseMethods,
-  ...standardLibraryMethods
+  ...standardLibraryMethods,
+  ...prisma5MethodsThatShowedUpOnUpgrade
 ]
 
 function propertyAllowedToBeMissing (propertyName) {
