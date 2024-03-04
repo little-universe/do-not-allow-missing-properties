@@ -15,7 +15,8 @@ const prisma5MethodsThatShowedUpOnUpgrade = ['__prismaRawParameters__', 's', '$t
 
 const allowedPrefixes = [
   '$$',
-  '@@'
+  '@@',
+  '__'
 ]
 
 const allowedMethods = [
